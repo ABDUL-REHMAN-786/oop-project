@@ -1,5 +1,14 @@
+#! /usr/bin/env node
+
 import inquirer from "inquirer";
-import chalk from "chalk";
+import chalk from "chalk"
+console.log(chalk.italic.bold.overline.underline.yellowBright("=================================================================="));
+console.log(chalk.italic.bold.magentaBright(                  "            $$$$$$     $$$$$$     $$$$$$$$    $$$$$$$$            "));
+console.log(chalk.italic.bold.greenBright(                    "           $$    $$   $$    $$    $$     $$   $$                  "  ));
+console.log(chalk.italic.bold.redBright(                      "           $$    $$   $$    $$    $$$$$$$$    $$$$$$$$            "  ));
+console.log(chalk.italic.bold.yellowBright(                   "           $$    $$   $$    $$    $$                $$            "  ));
+console.log(chalk.italic.bold.cyanBright(                     "            $$$$$$     $$$$$$     $$          $$$$$$$$            "));
+console.log(chalk.italic.bold.overline.underline.yellowBright("=================================================================="));
 
 interface Personality {
   personality: string;
@@ -34,6 +43,7 @@ const questions: PersonalityQuestion[] = [
     ],
   },
 ];
+
 const questions2 = [
   {
     type: "input",
@@ -43,17 +53,30 @@ const questions2 = [
 ];
 
 const main = async () => {
-  const answers: Personality = await inquirer.prompt(questions);
-  const answers2 = await inquirer.prompt(questions2);
+  while (true) {
+    const answers: Personality = await inquirer.prompt(questions);
+    const answers2 = await inquirer.prompt(questions2);
+    const student = {
+      name: answers2.studentName,
+      personality: answers.personality,
+    };
+    console.log(
+      `Your name is ${student.name} and your personality type is ${student.personality}`
+    );
 
-  const student = {
-    name: answers2.studentName,
-    personality: answers.personality,
-  };
+    const exitAnswer = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "exit",
+        message: "Do you want to exit?",
+      },
+    ]);
 
-  console.log(
-    `You name is ${student.name} and your personality type is ${student.personality}`
-  );
+    if (exitAnswer.exit) {
+      console.log(chalk.red("Exiting..."));
+      break;
+    }
+  }
 };
 
 main();
